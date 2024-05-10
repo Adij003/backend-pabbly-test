@@ -1,2 +1,2 @@
 # pabbly-nodejs-backend-skeleton
-Backend development structure for Nodejs
+Backend development structure for Nodejs.
