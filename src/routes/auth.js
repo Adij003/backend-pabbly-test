@@ -12,8 +12,10 @@ if (process.env.ENVIRONMENT === "development") {
     router.post('/signup', AuthController.signup);
 }
 
+//Login through token
 router.get('/tauth', AuthController.tokenAuth);
 
+//Logout from the current session
 router.get('/logout', AuthController.logout);
 
 module.exports = router;

@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const connectDB = require('./config/database');
-const setupRedisSession = require('./config/sessionRedis');
+// const setupRedisSession = require('./config/sessionRedis');
+const setupMongoSession = require('./config/sessionMongo');
 const passport = require('passport');
 require('./config/passport');
 
@@ -24,7 +25,7 @@ app.use(express.json());
 /**
  * Use the Redis session middleware
  */
-app.use(setupRedisSession());
+app.use(setupMongoSession());
 
 /**
  * Initialize Passport middleware
