@@ -37,7 +37,7 @@ function loadRoutes(app) {
                 /**
                 * For REST API's
                 */
-                return app.use(`/v1`, setRouteOptions, basicAuth, routeModule);
+                return app.use(`${routePath}/v1`, setRouteOptions, basicAuth, routeModule);
 
                 /**
                  * JWT auth example
