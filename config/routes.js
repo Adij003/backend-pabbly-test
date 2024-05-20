@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const passport = require('passport');
 const sessionAuth = require('../src/middlewares/sessionAuth');
 const basicAuth = require('../src/middlewares/basicAuth');
 const jwtAuth = require('../src/middlewares/jwtAuth');
 
-
+const csrf = require('csurf');
+// CSRF protection middleware
+const csrfProtection = csrf({ cookie: true });
 
 function loadRoutes(app) {
     // Read the routes directory
@@ -57,7 +58,7 @@ function loadRoutes(app) {
             /**
              * For session based authentication.
              */
-            return app.use(routePath, setRouteOptions, sessionAuth, routeModule);
+            return app.use(routePath, setRouteOptions, sessionAuth, csrfProtection, routeModule);
         }
     });
 }

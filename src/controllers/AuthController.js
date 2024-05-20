@@ -5,6 +5,7 @@ const Helper = require('../utils/Helper');
 const Cipher = require('../utils/Cipher');
 const Response = require('../utils/Response');
 const Accounts = require('../utils/Accounts');
+const UsersHelper = require('../utils/Users');
 const passport = require('passport');
 
 module.exports = {
@@ -35,10 +36,14 @@ module.exports = {
             }
 
             const user = signIn.data && signIn.data.customer ? signIn.data.customer : null;
+            const token = signIn.data && signIn.data.token ? signIn.data.token : null;
 
             if (!user) {
                 throw "No user found!";
             }
+
+            //Signup user if not exist.
+            var [err, newUser] = await Helper.to(UsersHelper.signUp(user.id));
 
             req.logIn(user, function (err) {
 
@@ -47,7 +52,7 @@ module.exports = {
                     res.status(400).json(Response.error(err));
                 }
 
-                return res.send(Response.success("Logged in successfully"));
+                return res.send(Response.success("Logged in successfully", token));
             });
         } catch (err) {
             Logs.error(err);
@@ -118,22 +123,14 @@ module.exports = {
             }
 
             const user = signIn.data && signIn.data.customer ? signIn.data.customer : null;
+            const token = signIn.data && signIn.data.token ? signIn.data.token : null;
 
             if (!user) {
                 throw "No user found!";
             }
 
-            // Create a new user instance
-            const newUser = new Users({
-                user_id: user.id,
-                api: {
-                    apiKey: Cipher.createSecretKey(10),
-                    secretKey: Cipher.createSecretKey(16),
-                }
-            });
-
-            // Save the user to the database
-            await newUser.save();
+            //Signup user if not exist.
+            var [err, newUser] = await Helper.to(UsersHelper.signUp(user.id));
 
             req.logIn(user, function (err) {
 
@@ -143,7 +140,7 @@ module.exports = {
                 }
 
                 // Respond with success message and created user data
-                return res.status(201).json(Response.success("User created successfully"));
+                return res.status(201).json(Response.success("User created successfully", token));
             });
         } catch (err) {
             Logs.error(err);
@@ -210,20 +207,8 @@ module.exports = {
                 throw err;
             }
 
-            if (!duser) {
-                // Create a new user instance
-                const newUser = new Users({
-                    user_id: user.id,
-                    api: {
-                        apiKey: Cipher.createSecretKey(10),
-                        secretKey: Cipher.createSecretKey(16),
-                    }
-                });
-
-                // Save the user to the database
-                await newUser.save();
-            }
-
+            //Signup user if not exist.
+            var [err, newUser] = await Helper.to(UsersHelper.signUp(user.id));
 
             req.logIn(user, function (err) {
 
