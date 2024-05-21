@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
             }
 
             if (!user) {
-                throw "User not found!";
+                throw "Invalid access!";
             }
 
             /**
