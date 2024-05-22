@@ -1,2 +1,2 @@
-# pabbly-nodejs-backend-skeleton
-Backend development structure for Nodejs.
+# Pabbly Nodejs Backend Starter App
+Backend development structured starter app for Nodejs.
