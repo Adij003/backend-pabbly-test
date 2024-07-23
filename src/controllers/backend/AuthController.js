@@ -1,9 +1,9 @@
 const { validationResult, body } = require('express-validator');
-const Users = require('../models/Users');
-const Logs = require('../utils/Logs');
-const Helper = require('../utils/Helper');
-const Response = require('../utils/Response');
-const Accounts = require('../utils/Accounts');
+const { User } = require('../../models');
+const Logs = require('../../utils/Logs');
+const Helper = require('../../utils/Helper');
+const Response = require('../../utils/Response');
+const Accounts = require('../../utils/Accounts');
 
 module.exports = {
 
@@ -40,7 +40,7 @@ module.exports = {
             }
 
             //Signup user if not exist.
-            var [err, newUser] = await Helper.to(Users.signUp(user.id));
+            var [err, newUser] = await Helper.to(User.signUp(user.id));
 
             req.logIn(user, function (err) {
 
@@ -198,14 +198,14 @@ module.exports = {
 
             const user = response.data;
 
-            var [err, duser] = await Helper.to(Users.findOne({ user_id: user.id }));
+            var [err, duser] = await Helper.to(User.findOne({ user_id: user.id }));
 
             if (err) {
                 throw err;
             }
 
             //Signup user if not exist.
-            var [err, newUser] = await Helper.to(Users.signUp(user.id));
+            var [err, newUser] = await Helper.to(User.signUp(user.id));
 
             req.logIn(user, function (err) {
 

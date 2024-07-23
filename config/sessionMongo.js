@@ -8,7 +8,7 @@ module.exports = function () {
         resave: false,
         saveUninitialized: false,
         store: MongoStore.create({
-            mongoUrl: process.env.DEV_DB_STRING, // MongoDB connection string
+            mongoUrl: process.env.MONGODB_URI, // MongoDB connection string
             collectionName: 'sessions', // Optional: Customize the collection name
         }),
         cookie: {

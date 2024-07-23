@@ -1,17 +1,36 @@
-const Users = require('../../../models/Users');
-const Logs = require('../../../utils/Logs');
-const Response = require('../../../utils/Response');
-const Helper = require('../../../utils/Helper');
+const { User } = require('../../models');
+const Logs = require('../../utils/Logs');
+const Response = require('../../utils/Response');
+const Helper = require('../../utils/Helper');
 const { validationResult, param, body } = require('express-validator');
 
 
 module.exports = {
 
     /**
+     * Create user
+     * @param {*} req 
+     * @param {*} res 
+     */
+    create: async (req, res) => {
+        try {
+            if (!req.body.user_id) {
+                throw "User id is required";
+            }
+
+            const user = await User.signUp(req.body.user_id);
+            res.send(Response.success('User created successfully', user));
+        } catch (err) {
+            Logs.error(err);
+            res.status(500).json(Response.error('Some error occurred while creating the User.', err.message));
+        }
+    },
+
+    /**
      * This method is use for retrieve a single record.
      * @param {*} req 
      * @param {*} res 
-     * @returns Users
+     * @returns User
      */
     getOne: async (req, res) => {
         try {
@@ -34,7 +53,7 @@ module.exports = {
 
             const userId = req.params.user_id;
 
-            const user = await Users.findById(userId);
+            const user = await User.findById(userId);
 
             if (!user) {
                 throw "User not found!";
@@ -51,7 +70,7 @@ module.exports = {
      * This method is use to update the single record.
      * @param {*} req 
      * @param {*} res 
-     * @returns Users
+     * @returns User
      */
     updateOne: async (req, res) => {
         try {
@@ -87,7 +106,7 @@ module.exports = {
 
             if (email) {
                 // Check if the provided email already exists
-                let existingUser = await Users.findOne({ _id: { $ne: userId }, email });
+                let existingUser = await User.findOne({ _id: { $ne: userId }, email });
                 if (existingUser) {
                     throw "User with this email already exists";
                 }
@@ -103,7 +122,7 @@ module.exports = {
                 updateFields.password = password;
             }
 
-            const updatedUser = await Users.findByIdAndUpdate(userId, updateFields, { new: true });
+            const updatedUser = await User.findByIdAndUpdate(userId, updateFields, { new: true });
 
 
             if (!updatedUser) {
@@ -121,14 +140,12 @@ module.exports = {
      * This method is use to fetch all the user record.
      * @param {*} req 
      * @param {*} res 
-     * @returns Users
+     * @returns User
      */
     getAll: async (req, res) => {
         try {
-
-            const users = await Users.find({});
-
-            return res.json(Response.success("All users", users));
+            const Users = await User.findAll();
+            return res.json(Response.success("All User", Users));
         } catch (err) {
             Logs.error(err);
             res.status(500).json(Response.error(err));
@@ -139,7 +156,7 @@ module.exports = {
      * This method is use to delete a single record.
      * @param {*} req 
      * @param {*} res 
-     * @returns Users
+     * @returns User
      */
 
     deleteOne: async (req, res) => {
@@ -163,7 +180,7 @@ module.exports = {
 
             const userId = req.params.user_id;
 
-            const deletedUser = await Users.findByIdAndDelete(userId);
+            const deletedUser = await User.findByIdAndDelete(userId);
 
             if (!deletedUser) {
                 throw "User not found!";

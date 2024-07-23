@@ -4,7 +4,7 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const bcrypt = require('bcryptjs');
-const Users = require('../src/models/Users');
+const { User } = require('../src/models');
 const Logs = require('../src/utils/Logs');
 const Helper = require('../src/utils/Helper');
 const Accounts = require('../src/utils/Accounts');
@@ -42,7 +42,7 @@ passport.use(new BasicStrategy(
         try {
 
             // Find user by username
-            const user = await Users.findOne({ "api.apiKey": username, "api.secretKey": password });
+            const user = await User.findOne({ "api.apiKey": username, "api.secretKey": password });
 
             if (!user) {
                 return done('Incorrect credentials.', false);
@@ -76,7 +76,7 @@ passport.use(new BasicStrategy(
 passport.use('jwt', new JwtStrategy(JWT_STRATEGY_CONFIG, async (payload, done) => {
     try {
 
-        const user = await Users.findOne({ user_id: payload.id });
+        const user = await User.findOne({ user_id: payload.id });
 
         if (!user) {
             return done('Incorrect credentials.', false);
@@ -113,7 +113,7 @@ passport.use('jwt', new JwtStrategy(JWT_STRATEGY_CONFIG, async (payload, done) =
 //     LOCAL_STRATEGY_CONFIG,
 //     async (email, password, done) => {
 //         try {
-//             let user = await Users.findOne({ email });
+//             let user = await User.findOne({ email });
 
 //             if (!user) {
 //                 return done('Incorrect username or password.', false);

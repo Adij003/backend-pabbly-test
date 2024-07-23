@@ -3,7 +3,7 @@
  */
 
 const Response = require('../utils/Response');
-const ActivityLogs = require('../models/ActivityLogs');
+const ActivityLogs = require('../models/mongodb/ActivityLogs');
 const passport = require('passport');
 const Logs = require('../utils/Logs');
 
