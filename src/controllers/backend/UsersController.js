@@ -144,7 +144,7 @@ module.exports = {
      */
     getAll: async (req, res) => {
         try {
-            const Users = await User.findAll();
+            const Users = await User.find();
             return res.json(Response.success("All User", Users));
         } catch (err) {
             Logs.error(err);

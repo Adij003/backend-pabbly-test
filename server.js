@@ -3,8 +3,8 @@ const app = express();
 require('dotenv').config();
 const dbConfig = require('./config/database');
 // const setupRedisSession = require('./config/sessionRedis');
-// const setupMongoSession = require('./config/sessionMongo');
-const setupMysqlSession = require('./config/sessionMysql');
+const setupMongoSession = require('./config/sessionMongo');
+// const setupMysqlSession = require('./config/sessionMysql');
 const corsMiddleware = require('./config/cors');
 const helmetMiddleware = require('./config/helmet');
 const cacheControl = require('./config/cacheControl');
@@ -58,12 +58,12 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * Use the Mongo session middleware
  */
-// app.use(setupMongoSession());
+app.use(setupMongoSession());
 
 /**
  * Use the mysql session middleware
  */
-app.use(setupMysqlSession());
+// app.use(setupMysqlSession());
 
 /**
  * Initialize Passport middleware

@@ -20,17 +20,17 @@ module.exports = async (req, res, next) => {
             delete eventData.password;
         }
 
-        // const newActivityLogs = new ActivityLogs({
-        //     user_id: req.user.id,
-        //     module_name: req.routeOptions && req.routeOptions.module_name ? req.routeOptions.module_name : '',
-        //     event_source: "user",
-        //     action: req.method,
-        //     url: req.originalUrl,
-        //     data: JSON.stringify(eventData),
-        // });
+        const newActivityLogs = new ActivityLogs({
+            user_id: req.user.id,
+            module_name: req.routeOptions && req.routeOptions.module_name ? req.routeOptions.module_name : '',
+            event_source: "user",
+            action: req.method,
+            url: req.originalUrl,
+            data: JSON.stringify(eventData),
+        });
 
-        // // Save the logs to the database
-        // await newActivityLogs.save();
+        // Save the logs to the database
+        await newActivityLogs.save();
     }
 
     return next(); // User is authenticated, continue to the next middleware or route handler
