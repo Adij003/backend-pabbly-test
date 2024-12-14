@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: production # Specify the environment to access its secrets
+      name: awsdeploy # Specify the environment to access its secrets
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
