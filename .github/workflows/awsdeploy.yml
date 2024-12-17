@@ -122,8 +122,8 @@ jobs:
               "cd '$TARGET_DIRECTORY'",
               
               "# Install dependencies and build",
-              "sudo -u ubuntu npm ci",
-              "sudo -u ubuntu npm run build", 
+              "npm ci",
+              "npm run build", 
               
               "# Copy built files to webroot",
               "sudo rsync -avur --delete '$TARGET_DIRECTORY/dist/' '$WEBROOT_DIRECTORY'",
