@@ -123,13 +123,10 @@ jobs:
               
               "# Install dependencies and build",
               "sudo -u ubuntu npm ci",
-              "sudo -u ubuntu npm run build",
-              
-              "# Clear existing webroot contents",
-              "sudo rm -rf '$WEBROOT_DIRECTORY'/*",
+              "sudo -u ubuntu npm run build", 
               
               "# Copy built files to webroot",
-              "sudo rsync -avur '$TARGET_DIRECTORY/dist/' '$WEBROOT_DIRECTORY'",
+              "sudo rsync -avur --delete '$TARGET_DIRECTORY/dist/' '$WEBROOT_DIRECTORY'",
               
               "# Ensure correct permissions",
               "sudo chown -R www-data:www-data '$WEBROOT_DIRECTORY'"
