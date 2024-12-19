@@ -155,7 +155,7 @@ jobs:
               "sudo -u ubuntu npm install",
               
               "# Restart Docker container",
-              "sudo docker restart '$CONTAINER_NAME'"
+              "sudo docker container restart '$CONTAINER_NAME'"
             ]
           }' \
           --output text
