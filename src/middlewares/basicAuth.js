@@ -3,7 +3,7 @@
  */
 
 const Response = require('../utils/Response');
-const ActivityLogs = require('../models/mongodb/ActivityLogs');
+const ActivityLog = require('../models/mongodb/ActivityLog');
 const passport = require('passport');
 const Logs = require('../utils/Logs');
 
@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
                     delete eventData.password;
                 }
 
-                const newActivityLogs = new ActivityLogs({
+                const newActivityLog = new ActivityLog({
                     user_id: user.id,
                     module_name: req.routeOptions && req.routeOptions.module_name ? req.routeOptions.module_name : '',
                     event_source: "api",
@@ -38,7 +38,7 @@ module.exports = async (req, res, next) => {
                 });
 
                 // Save the logs to the database
-                await newActivityLogs.save();
+                await newActivityLog.save();
             }
 
             req.user = user;

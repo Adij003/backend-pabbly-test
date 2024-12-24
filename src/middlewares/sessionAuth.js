@@ -3,7 +3,7 @@
  */
 
 const Response = require('../utils/Response');
-const ActivityLogs = require('../models/mongodb/ActivityLogs');
+const ActivityLog = require('../models/mongodb/ActivityLog');
 
 module.exports = async (req, res, next) => {
 
@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
             delete eventData.password;
         }
 
-        const newActivityLogs = new ActivityLogs({
+        const newActivityLog = new ActivityLog({
             user_id: req.user.id,
             module_name: req.routeOptions && req.routeOptions.module_name ? req.routeOptions.module_name : '',
             event_source: "user",
@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
         });
 
         // Save the logs to the database
-        await newActivityLogs.save();
+        await newActivityLog.save();
     }
 
     return next(); // User is authenticated, continue to the next middleware or route handler
