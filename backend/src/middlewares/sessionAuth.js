@@ -3,13 +3,19 @@
  */
 
 const Response = require('../utils/Response');
-const ActivityLog = require('../models/mongodb/ActivityLog');
+const ActivityLog = require('../models/ActivityLog');
 
 module.exports = async (req, res, next) => {
 
     if (!req.isAuthenticated()) {
         return res.status(400).json(Response.error("Please login first!"));
     }
+
+    if(!req.user){
+        return res.status(401).json(Response.error('Unauthorized'))
+    }
+
+    req.owner = req.user.id
 
     /**
      * Creating activity log
