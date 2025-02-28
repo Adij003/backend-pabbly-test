@@ -5,6 +5,7 @@ const basicAuth = require('../src/middlewares/basicAuth');
 const jwtAuth = require('../src/middlewares/jwtAuth');
 
 const csrf = require('csurf');
+const apiRateLimiter = require('../src/middlewares/apiRateLimiter');
 // CSRF protection middleware
 const csrfProtection = csrf({ cookie: true });
 
@@ -34,11 +35,16 @@ function loadRoutes(app) {
                 next();
             };
 
+            const setOwnerInRestApi = (req, res, next) => {
+                req.owner = req.user.id;
+                next()
+            }
+
             if (moduleName === "api") {
                 /**
                 * For REST API's
                 */
-                return app.use(`${routePath}/v1`, setRouteOptions, basicAuth, routeModule);
+                return app.use(`${routePath}/v1`, setRouteOptions, basicAuth, setOwnerInRestApi, apiRateLimiter, routeModule);
 
                 /**
                  * JWT auth example

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router()
-const {validateTaskId, validateTask, validateBulkTask} = require('../utils/Validator')
-const TaskController = require('../controllers/backend/TaskController');
-const handleValidationError = require('../middlewares/handleValidationError');
+const {validateTaskId, validateTask, validateBulkTask} = require('../../utils/Validator')
+const TaskController = require('../../controllers/backend/TaskController');
+const handleValidationError = require('../../middlewares/handleValidationError');
 
 
 // create taks route

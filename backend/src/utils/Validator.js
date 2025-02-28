@@ -32,7 +32,21 @@ exports.validateTask = [
     
 ];
 
+
+exports.validateBulkTask = [
+    body('tasks')
+    .isArray({min: 1})
+    .withMessage('Task must be an array and cannot be empty'),
+    body('tasks.*.title')
+    .notEmpty()
+    .withMessage('Each task must have a title'),
+    body('tasks.*.due_date')
+    .notEmpty()
+    .withMessage('Each task must have a due_date')
+]
+
 exports.validateTaskId = [
     param('id')
-    .isMongoId().withMessage('Task id must be a valid mongodb id')
+    .isMongoId()
+    .withMessage('Task id must be a valid mongoDB objectId')
 ]
